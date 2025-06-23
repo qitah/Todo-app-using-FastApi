@@ -29,12 +29,6 @@ app = FastAPI()
 app.include_router(users.router)
 app.include_router(todos.router)
 app.include_router(jwt_helper.router)
-
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
- 
  
 @app.post("/token")
 def login_for_access_token(

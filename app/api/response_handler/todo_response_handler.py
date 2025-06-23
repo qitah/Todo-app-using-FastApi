@@ -1,12 +1,7 @@
-from fastapi import Depends, HTTPException
-from sqlalchemy.orm import Session
 from starlette import status
 from app.models.todos_model import Task, Todo
 from app.models.users_model import User
-from app.db.session import get_db
-from app.helpers import password_helper
 from app.schemas import todo_schema
-from sqlalchemy import or_
 
 
 def create_todo_list(request: todo_schema.CreateTodo, response, db):
@@ -150,7 +145,7 @@ def share_to_do_list_with_user(user_id: int, todo_id: int, response, db):
 
 def get_shared_todo_list(user_id: int, response, db):
     user = db.query(User).filter(User.id == user_id).first()
-    if not user:
+    if user is None:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {
             'message': "User not found",
@@ -159,7 +154,7 @@ def get_shared_todo_list(user_id: int, response, db):
         }
     
     shared_todo_lists = db.query(Todo).filter(Todo.shared_with.any(id=user_id)).all()
-    if not shared_todo_lists:
+    if len(shared_todo_lists) == 0:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {
             'message': "No shared todo lists found",
