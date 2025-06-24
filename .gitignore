@@ -1,5 +1,6 @@
 TodoAppVenv/
 __pycache__/
+.env
 
 
 
