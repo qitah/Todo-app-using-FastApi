@@ -1,7 +1,7 @@
 
 from datetime import datetime, timedelta, timezone
 import os
-from typing import Annotated
+from typing import Annotated, Union
 
 import jwt
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -29,7 +29,7 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    username: str | None = None
+    username: Union[str, None] = None
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -49,7 +49,7 @@ def authenticate_user(db, username: str, password: str):
     return user
 
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta

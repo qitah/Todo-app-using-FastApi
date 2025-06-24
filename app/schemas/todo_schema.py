@@ -1,4 +1,4 @@
-from typing import Annotated, Optional
+from typing import Annotated, Optional, Union
 from fastapi import Query
 from pydantic import BaseModel, EmailStr
 from fastapi import Query
@@ -46,7 +46,7 @@ class GetTask(BaseModel):
 class updateTask(BaseModel):
     title: Optional[str] = None
     is_done: Optional[bool] = None
-    due_date: Annotated[str  | None, Query(..., regex=r"^\d{4}-\d{2}-\d{2}$ || \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")] = None 
+    due_date: Annotated[Union[str,  None], Query(..., regex=r"^\d{4}-\d{2}-\d{2}$ || \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")] = None 
 
     @field_validator("due_date", mode="before")
     def format_due_date(cls, value):
