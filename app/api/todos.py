@@ -14,7 +14,7 @@ def create_todo(request: todo_schema.CreateTodo, response: Response, db: Session
     return todo_response_handler.create_todo_list(request, response, db)
 
 
-@router.get("/{todo_id}/tasks", status_code=200, tags=['todos']) 
+@router.get("/tasks", status_code=200, tags=['todos']) 
 def get_todo_list_with_tasks(todo_id: int, response: Response, db: Session = Depends(get_db)):
     return todo_response_handler.get_todo_list_with_tasks(todo_id, response, db)
 

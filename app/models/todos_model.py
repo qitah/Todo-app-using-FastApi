@@ -24,3 +24,4 @@ class Task(Base):
     is_done = Column(Boolean, default=False)
     due_date = Column(DateTime, nullable=False)
     todo_id = Column(Integer, ForeignKey("todo.id"))
+    is_expired = Column(Boolean, default=False) 
